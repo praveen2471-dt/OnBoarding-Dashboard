@@ -20,13 +20,13 @@
   --s-seonhold:#F59E0B;--s-salesonhold:#FB923C;--s-monitoring:#A78BFA;
   --s-completed:#34D399;--s-failed:#F43F5E;--s-paused:#94A3B8;
   --t-micro:#2DD4BF;--t-smb:#818CF8;--t-mega:#F472B6;
+  --p-b2c:#38BDF8;--p-b2b:#FB923C;
 }
 *{box-sizing:border-box;}html,body{margin:0;padding:0;}
 body{background:radial-gradient(circle at 15% 0%,#101a30 0%,var(--bg) 55%);color:var(--text);font-family:var(--font-body);min-height:100vh;-webkit-font-smoothing:antialiased;}
 button{font-family:var(--font-body);cursor:pointer;}input,select{font-family:var(--font-body);}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-.app{max-width:1320px;margin:0 auto;padding:28px 24px 80px;}
-
+.app{max-width:1400px;margin:0 auto;padding:28px 24px 80px;}
 .topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px;border-bottom:1px solid var(--border-soft);padding-bottom:20px;}
 .brand-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
 .brand-title{font-family:var(--font-display);font-size:30px;font-weight:600;margin:0;letter-spacing:-.01em;}
@@ -40,11 +40,11 @@ button{font-family:var(--font-body);cursor:pointer;}input,select{font-family:var
 .last-updated{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);}
 #fileInput{display:none;}
 
-/* connect panel */
+/* connect */
 .connect-panel{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:40px 36px;max-width:700px;margin:0 auto;}
 .connect-panel h2{font-family:var(--font-display);font-size:22px;margin:0 0 8px;}
 .connect-panel .sub{color:var(--text-dim);font-size:13.5px;margin:0 0 28px;line-height:1.6;}
-.connect-steps{display:flex;flex-direction:column;gap:0;margin-bottom:28px;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;}
+.connect-steps{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:28px;}
 .step{display:flex;align-items:stretch;border-bottom:1px solid var(--border-soft);}
 .step:last-child{border-bottom:none;}
 .step-num{width:48px;min-height:56px;background:var(--bg-elev-2);color:var(--accent);font-family:var(--font-display);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-right:1px solid var(--border-soft);}
@@ -64,20 +64,9 @@ button{font-family:var(--font-body);cursor:pointer;}input,select{font-family:var
 
 /* sheet badge */
 .sheet-badge{display:flex;align-items:center;gap:10px;background:rgba(94,234,212,.08);border:1px solid rgba(94,234,212,.2);border-radius:999px;padding:6px 14px 6px 10px;font-size:12.5px;}
-.sheet-name{color:var(--accent);font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sheet-name{color:var(--accent);font-weight:600;}
 .sheet-disconnect{background:none;border:none;color:var(--text-faint);font-size:16px;padding:0 0 0 4px;line-height:1;}
 .sheet-disconnect:hover{color:#F43F5E;}
-
-/* mapping */
-.mapping-panel{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:28px;}
-.mapping-panel h3{font-family:var(--font-display);margin:0 0 4px;font-size:18px;}
-.mapping-panel .hint{color:var(--text-dim);font-size:13px;margin:0 0 18px;}
-.mapping-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:18px;}
-.map-field label{display:block;font-size:12px;color:var(--text-dim);margin-bottom:6px;font-weight:600;}
-.map-field label .req{color:var(--s-failed);}
-.map-field select{width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:9px 10px;font-size:13.5px;}
-.mapping-actions{display:flex;gap:10px;align-items:center;}
-.map-warning{color:var(--s-seonhold);font-size:12.5px;}
 
 /* loading */
 .loading-overlay{text-align:center;padding:60px 24px;}
@@ -102,58 +91,65 @@ button{font-family:var(--font-body);cursor:pointer;}input,select{font-family:var
 .branch-count{font-family:var(--font-mono);color:var(--text-dim);}
 .branches-label{font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;margin-right:4px;align-self:center;}
 
+/* stats */
 .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
 .stat-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:18px 18px 16px;}
 .stat-value{font-family:var(--font-display);font-size:28px;font-weight:600;line-height:1;}
 .stat-label{font-size:12px;color:var(--text-dim);margin-top:8px;}
 .stat-sub{font-size:11px;color:var(--text-faint);margin-top:4px;font-family:var(--font-mono);}
 
-.charts-grid{display:grid;grid-template-columns:340px 1fr;gap:16px;margin-bottom:24px;}
+/* charts */
+.charts-grid{display:grid;grid-template-columns:300px 300px 1fr;gap:16px;margin-bottom:24px;}
 .card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
-.donut-wrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
-.donut{width:150px;height:150px;border-radius:50%;flex-shrink:0;position:relative;}
-.donut-center{position:absolute;inset:24px;background:var(--bg-elev);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.donut-center .n{font-family:var(--font-display);font-size:22px;font-weight:700;}
-.donut-center .l{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;}
-.legend{display:flex;flex-direction:column;gap:9px;}
-.legend-row{display:flex;align-items:center;gap:9px;font-size:12.5px;}
+.donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.donut{width:130px;height:130px;border-radius:50%;flex-shrink:0;position:relative;}
+.donut-center{position:absolute;inset:20px;background:var(--bg-elev);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.donut-center .n{font-family:var(--font-display);font-size:20px;font-weight:700;}
+.donut-center .l{font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;}
+.legend{display:flex;flex-direction:column;gap:8px;}
+.legend-row{display:flex;align-items:center;gap:8px;font-size:12px;}
 .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
-.legend-name{color:var(--text);min-width:46px;}
+.legend-name{color:var(--text);min-width:40px;}
 .legend-count{color:var(--text-dim);font-family:var(--font-mono);margin-left:auto;}
-.cse-rows{display:flex;flex-direction:column;gap:14px;}
-.cse-row{display:grid;grid-template-columns:130px 1fr 46px;align-items:center;gap:12px;}
-.cse-name{font-size:13px;font-weight:600;}
-.cse-bar{height:16px;border-radius:5px;overflow:hidden;display:flex;background:var(--bg-elev-2);}
+.cse-rows{display:flex;flex-direction:column;gap:12px;}
+.cse-row{display:grid;grid-template-columns:110px 1fr 36px;align-items:center;gap:10px;}
+.cse-name{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cse-bar{height:14px;border-radius:4px;overflow:hidden;display:flex;background:var(--bg-elev-2);}
 .cse-bar span{height:100%;}
-.cse-total{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);text-align:right;}
+.cse-total{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);text-align:right;}
 
+/* at risk */
 .at-risk{margin-bottom:24px;}
-.risk-list{display:flex;flex-direction:column;gap:10px;}
-.risk-item{display:grid;grid-template-columns:1.4fr 1fr 1fr 90px;align-items:center;gap:12px;background:var(--bg-elev);border:1px solid var(--border);border-left:3px solid var(--s-seonhold);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;}
+.risk-list{display:flex;flex-direction:column;gap:8px;}
+.risk-item{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 80px;align-items:center;gap:12px;background:var(--bg-elev);border:1px solid var(--border);border-left:3px solid var(--s-seonhold);border-radius:var(--radius-sm);padding:10px 16px;font-size:13px;}
 .risk-item .name{font-weight:600;}
 .risk-item .meta{color:var(--text-dim);font-size:12px;}
 .risk-item .age{font-family:var(--font-mono);text-align:right;color:var(--s-seonhold);font-weight:600;}
 .no-risk{color:var(--text-dim);font-size:13.5px;padding:18px;text-align:center;}
 
-.filters-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
-.search-input{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;min-width:200px;}
-.cse-select{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:8px 10px;font-size:13px;}
-.chip{border:1px solid var(--border);background:var(--bg-elev-2);color:var(--text-dim);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;transition:all .12s;}
+/* table */
+.filters-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+.search-input{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:7px 12px;font-size:13px;min-width:200px;}
+.filter-select{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:7px 10px;font-size:13px;}
+.chip{border:1px solid var(--border);background:var(--bg-elev-2);color:var(--text-dim);border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:600;transition:all .12s;}
 .chip-clear{margin-left:auto;}
-table{width:100%;border-collapse:collapse;font-size:13px;}
-thead th{text-align:left;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:0 12px 10px;border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;font-weight:600;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+thead th{text-align:left;color:var(--text-faint);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;padding:0 10px 10px;border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;font-weight:600;}
 thead th:hover{color:var(--accent);}
-tbody td{padding:11px 12px;border-bottom:1px solid var(--border-soft);vertical-align:middle;}
+tbody td{padding:10px 10px;border-bottom:1px solid var(--border-soft);vertical-align:middle;}
 tbody tr.risk-row{box-shadow:inset 3px 0 0 var(--s-seonhold);}
 tbody tr.success-row{box-shadow:inset 3px 0 0 var(--s-completed);}
 tbody tr.failed-row{box-shadow:inset 3px 0 0 var(--s-failed);}
-.badge{display:inline-flex;align-items:center;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;}
-.type-pill{font-size:11px;font-family:var(--font-mono);color:var(--text-dim);}
-.mono{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap;}
+.type-pill{font-size:11px;font-family:var(--font-mono);}
+.proj-pill{font-size:10.5px;font-family:var(--font-mono);font-weight:600;padding:2px 7px;border-radius:4px;}
+.mono{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);}
+.notes-cell{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-dim);font-size:12px;}
 .empty-row{text-align:center;color:var(--text-dim);padding:30px;}
 .refresh-ring{display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--accent);border-top-color:transparent;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;border-top:1px solid var(--border-soft);padding-top:18px;}
-@media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr);}.charts-grid{grid-template-columns:1fr;}.risk-item{grid-template-columns:1fr;}}
+@media(max-width:1100px){.charts-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:800px){.stats-grid{grid-template-columns:repeat(2,1fr);}.charts-grid{grid-template-columns:1fr;}.risk-item{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -167,7 +163,6 @@ footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;bo
     <div class="topbar-controls">
       <span class="last-updated" id="lastUpdated"></span>
       <div id="sheetBadge" style="display:none;"></div>
-      <button class="btn" id="remapBtn" style="display:none;">Remap columns</button>
       <button class="btn" id="refreshBtn" style="display:none;">↻ Refresh</button>
       <button class="btn" id="uploadBtn">Upload CSV instead</button>
       <input type="file" id="fileInput" accept=".csv,text/csv">
@@ -176,20 +171,20 @@ footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;bo
 
   <div id="connectPanel" class="connect-panel">
     <h2>Connect your Google Sheet</h2>
-    <p class="sub">Only two things needed: set sharing to <strong>Anyone with the link → Viewer</strong>, then paste the normal sheet URL here. No "Publish to web" required.</p>
+    <p class="sub">Your column mapping is already configured. Just paste your sheet URL and the dashboard will load instantly.</p>
     <div class="connect-steps">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
-          <strong>Share your sheet as "Anyone with the link can view"</strong>
-          <p>Click <code>Share</code> → under General access choose <code>Anyone with the link</code> as Viewer. You've already done this ✓</p>
+          <strong>Make sure the sheet is shared as "Anyone with the link can view"</strong>
+          <p>Click <code>Share</code> → General access → <code>Anyone with the link</code> as Viewer.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
-          <strong>Copy the URL from your browser address bar and paste it below</strong>
-          <p>Looks like: <code>https://docs.google.com/spreadsheets/d/1abc…xyz/edit</code></p>
+          <strong>Paste the URL from your browser address bar below</strong>
+          <p>Example: <code>https://docs.google.com/spreadsheets/d/1abc…xyz/edit</code></p>
         </div>
       </div>
     </div>
@@ -206,9 +201,8 @@ footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;bo
   </div>
 
   <div id="loadingState" style="display:none;">
-    <div class="loading-overlay"><div class="spinner"></div><p id="loadingMsg">Connecting to Google Sheet…</p></div>
+    <div class="loading-overlay"><div class="spinner"></div><p>Connecting to Google Sheet…</p></div>
   </div>
-  <div id="mappingPanel" class="mapping-panel" style="display:none;"></div>
 
   <div id="dashboard" style="display:none;">
     <section class="hero">
@@ -219,8 +213,12 @@ footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;bo
     <section class="stats-grid" id="statsGrid"></section>
     <section class="charts-grid">
       <div class="card">
-        <div class="section-head"><p class="section-title">Customer mix</p></div>
+        <div class="section-head"><p class="section-title">Customer Type</p></div>
         <div class="donut-wrap" id="typeDonutWrap"></div>
+      </div>
+      <div class="card">
+        <div class="section-head"><p class="section-title">Project Mix</p><p class="section-note">B2B vs B2C</p></div>
+        <div class="donut-wrap" id="projDonutWrap"></div>
       </div>
       <div class="card">
         <div class="section-head"><p class="section-title">Load by CSE</p><p class="section-note">stacked by status</p></div>
@@ -240,58 +238,85 @@ footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;bo
       <div style="overflow-x:auto;">
         <table>
           <thead><tr>
-            <th data-key="name">Customer</th><th data-key="type">Type</th><th data-key="cse">CSE</th>
-            <th data-key="status">Status</th><th data-key="dateReceived">Date Received</th>
-            <th data-key="age">Age (days)</th><th data-key="goLiveDate">Go-Live Date</th>
+            <th data-key="name">Business Name</th>
+            <th data-key="project">Project</th>
+            <th data-key="type">Type</th>
+            <th data-key="csm">CSM</th>
+            <th data-key="cse">CSE</th>
+            <th data-key="status">Status</th>
+            <th data-key="dateReceived">Date Received</th>
+            <th data-key="age">Age (days)</th>
+            <th data-key="goLiveDate">Go-Live Date</th>
             <th data-key="daysToGoLive">Days to Go-Live</th>
+            <th data-key="notes">Notes</th>
           </tr></thead>
           <tbody id="tableBody"></tbody>
         </table>
       </div>
     </section>
-    <footer>Age = today − Date Received. Days to Go-Live = Go-Live Date − Date Received. Data is fetched live — hit ↻ Refresh anytime. Nothing is stored on a server.</footer>
+    <footer>
+      Age = today − Date Received (recalculated live). Days to Go-Live = Go-Live Date − Date Received.
+      Columns mapped: Business Name · Project · Customer Type · CSM · CSE · Date Received · GoLive Date · Status · Notes.
+    </footer>
   </div>
 </div>
 
 <script>
 (function(){
+/* ─── Column mapping — exact headers from your Google Sheet ─── */
+var COL = {
+  name:         "Business Name",
+  project:      "Project",           // B2C / B2B
+  licenses:     "Lic",
+  csm:          "CSM",
+  cse:          "CSE",
+  dateReceived: "Date Received",
+  goLiveDate:   "GoLive Date",
+  status:       "Status",
+  notes:        "Notes",
+  customerType: "Customer Type",     // Micro / SMB / Mega
+  overallStatus:"Overall Status",
+  quarter:      "Quarter",
+  week:         "Week"
+};
+
 var STATUS_ORDER=["Not Started Yet","KickOff Scheduled","Active OnBoarding","Monitoring","Successfully Completed","SE OnHold","Sales OnHold","Failed to Launch","Customer Paused"];
-var STATUS_META={"Not Started Yet":{color:"var(--s-notstarted)"},"KickOff Scheduled":{color:"var(--s-kickoff)"},"Active OnBoarding":{color:"var(--s-active)"},"Monitoring":{color:"var(--s-monitoring)"},"Successfully Completed":{color:"var(--s-completed)"},"SE OnHold":{color:"var(--s-seonhold)"},"Sales OnHold":{color:"var(--s-salesonhold)"},"Failed to Launch":{color:"var(--s-failed)"},"Customer Paused":{color:"var(--s-paused)"}};
+var STATUS_META={
+  "Not Started Yet":{color:"var(--s-notstarted)"},
+  "KickOff Scheduled":{color:"var(--s-kickoff)"},
+  "Active OnBoarding":{color:"var(--s-active)"},
+  "Monitoring":{color:"var(--s-monitoring)"},
+  "Successfully Completed":{color:"var(--s-completed)"},
+  "SE OnHold":{color:"var(--s-seonhold)"},
+  "Sales OnHold":{color:"var(--s-salesonhold)"},
+  "Failed to Launch":{color:"var(--s-failed)"},
+  "Customer Paused":{color:"var(--s-paused)"}
+};
 var MAIN_PATH=["Not Started Yet","KickOff Scheduled","Active OnBoarding","Monitoring","Successfully Completed"];
 var BRANCH_STATUSES=["SE OnHold","Sales OnHold","Failed to Launch","Customer Paused"];
 var TYPE_ORDER=["Micro","SMB","Mega"];
 var TYPE_COLOR={"Micro":"var(--t-micro)","SMB":"var(--t-smb)","Mega":"var(--t-mega)"};
+var PROJ_COLOR={"B2C":"var(--p-b2c)","B2B":"var(--p-b2b)"};
 var IN_FLIGHT=["Not Started Yet","KickOff Scheduled","Active OnBoarding","SE OnHold","Sales OnHold","Monitoring"];
-var state={rawHeaders:[],rawRows:[],mapping:{name:"",type:"",cse:"",dateReceived:"",status:"",goLiveDate:""},records:[],filters:{types:new Set(),statuses:new Set(),cse:"all",search:""},sort:{key:"age",dir:"desc"},riskThreshold:30,sheetCsvUrl:null};
 
-/* ─── URL → fetchable CSV via Google Visualization API ───
-   /gviz/tq?tqx=out:csv works with CORS on any sheet shared as "anyone with link"
-   No "Publish to web" needed. This is the key fix. */
-function extractSheetId(input){
+var state={rawRows:[],records:[],filters:{types:new Set(),projects:new Set(),statuses:new Set(),cse:"all",search:""},sort:{key:"age",dir:"desc"},riskThreshold:30,sheetCsvUrl:null};
+
+/* ─── URL → gviz CSV (works with CORS, just needs "anyone with link" sharing) ─── */
+function toGvizUrl(input){
   var m=input.trim().match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
-  return m?m[1]:null;
-}
-function extractGid(input){
-  var m=input.match(/[#&?]gid=(\d+)/);
-  return m?m[1]:"0";
-}
-function toGvizCsvUrl(sheetUrl){
-  var id=extractSheetId(sheetUrl);
-  if(!id) return null;
-  var gid=extractGid(sheetUrl);
-  // Google Visualization query API — serves CSV with proper CORS headers
-  return "https://docs.google.com/spreadsheets/d/"+id+"/gviz/tq?tqx=out:csv&gid="+gid;
+  if(!m)return null;
+  var gid=(input.match(/[#&?]gid=(\d+)/)||[])[1]||"0";
+  return "https://docs.google.com/spreadsheets/d/"+m[1]+"/gviz/tq?tqx=out:csv&gid="+gid;
 }
 
 /* ─── CSV parser ─── */
 function parseCSV(text){
-  // gviz CSV wraps all values in quotes; handle that
   var rows=[],row=[],field="",inQ=false;
   text=text.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
   for(var i=0;i<text.length;i++){
     var c=text[i];
     if(inQ){if(c==='"'){if(text[i+1]==='"'){field+='"';i++;}else inQ=false;}else field+=c;}
-    else if(c==='"') inQ=true;
+    else if(c==='"')inQ=true;
     else if(c===','){row.push(field);field="";}
     else if(c==='\n'){row.push(field);rows.push(row);row=[];field="";}
     else field+=c;
@@ -300,193 +325,281 @@ function parseCSV(text){
   return rows.filter(function(r){return!(r.length===1&&r[0].trim()==="");});
 }
 
-function fuzzyFind(headers,kws){var low=headers.map(function(h){return h.toLowerCase();});for(var k=0;k<kws.length;k++)for(var i=0;i<low.length;i++)if(low[i].indexOf(kws[k])!==-1)return headers[i];return"";}
-function autoMap(h){return{name:fuzzyFind(h,["customer name","account name","company","name"]),type:fuzzyFind(h,["type of customer","customer type","tier","type"]),cse:fuzzyFind(h,["cse","csm","owner","handling","rep","assigned"]),dateReceived:fuzzyFind(h,["date received","received date","received","start date","created"]),status:fuzzyFind(h,["onboarding status","status"]),goLiveDate:fuzzyFind(h,["golive","go live","go-live","live date","launch date"])};}
-
-function parseDate(v){if(!v)return null;var s=String(v).trim();if(!s)return null;var d=new Date(s);if(!isNaN(d.getTime()))return d;var m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);if(m){var a=+m[1],b=+m[2],c=+m[3];if(c<100)c+=2000;d=new Date(c,a<=12?a-1:b-1,a<=12?b:a);if(!isNaN(d.getTime()))return d;}return null;}
+/* ─── Date helpers ─── */
+function parseDate(v){
+  if(!v)return null;var s=String(v).trim();if(!s)return null;
+  var d=new Date(s);if(!isNaN(d.getTime()))return d;
+  var m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if(m){var a=+m[1],b=+m[2],c=+m[3];if(c<100)c+=2000;d=new Date(c,a<=12?a-1:b-1,a<=12?b:a);if(!isNaN(d.getTime()))return d;}
+  return null;
+}
 function daysBetween(d1,d2){return Math.round((Date.UTC(d2.getFullYear(),d2.getMonth(),d2.getDate())-Date.UTC(d1.getFullYear(),d1.getMonth(),d1.getDate()))/86400000);}
 function fmtDate(d){return d?d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"}):"—";}
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 
+/* ─── Build records from raw rows using exact column names ─── */
 function buildRecords(){
-  var m=state.mapping,today=new Date();
+  var today=new Date();
   state.records=state.rawRows.map(function(r,idx){
-    var typeRaw=(m.type?r[m.type]:"").trim();
-    var cse=(m.cse?r[m.cse]:"").trim()||"Unassigned";
-    var statusRaw=(m.status?r[m.status]:"").trim();
+    var name=(r[COL.name]||"").trim()||("Account "+(idx+1));
+    var project=(r[COL.project]||"").trim();
+    var type=(r[COL.customerType]||"").trim();
+    var csm=(r[COL.csm]||"").trim();
+    var cse=(r[COL.cse]||"").trim()||"Unassigned";
+    var statusRaw=(r[COL.status]||"").trim();
     var status=STATUS_ORDER.indexOf(statusRaw)!==-1?statusRaw:(statusRaw||"Not Started Yet");
-    var dr=parseDate(m.dateReceived?r[m.dateReceived]:"");
-    var gl=parseDate(m.goLiveDate?r[m.goLiveDate]:"");
-    var name=(m.name?r[m.name]:"").trim()||("Account "+(idx+1));
-    var type=TYPE_ORDER.indexOf(typeRaw)!==-1?typeRaw:(typeRaw||"SMB");
-    return{name:name,type:type,cse:cse,status:status,dateReceived:dr,goLiveDate:gl,age:dr?daysBetween(dr,today):null,daysToGoLive:(dr&&gl)?daysBetween(dr,gl):null};
-  });
+    var dr=parseDate(r[COL.dateReceived]);
+    var gl=parseDate(r[COL.goLiveDate]);
+    var notes=(r[COL.notes]||"").trim();
+    return{
+      name:name,project:project,type:type,csm:csm,cse:cse,
+      status:status,dateReceived:dr,goLiveDate:gl,notes:notes,
+      age:dr?daysBetween(dr,today):null,
+      daysToGoLive:(dr&&gl)?daysBetween(dr,gl):null
+    };
+  }).filter(function(r){return r.name&&r.name!=="Business Name";});// skip any header-repeat rows
 }
 
-function showLoading(msg){document.getElementById("loadingState").style.display="block";document.getElementById("loadingMsg").textContent=msg||"Loading…";document.getElementById("connectPanel").style.display="none";document.getElementById("dashboard").style.display="none";document.getElementById("mappingPanel").style.display="none";}
-function hideLoading(){document.getElementById("loadingState").style.display="none";}
-function showError(html){var el=document.getElementById("connectError");el.innerHTML=html;el.style.display="block";document.getElementById("connectPanel").style.display="block";}
-
-function fetchAndIngest(csvUrl,autoReconnect){
-  showLoading("Connecting to Google Sheet…");
+/* ─── Fetch & ingest ─── */
+function fetchAndIngest(csvUrl){
+  document.getElementById("loadingState").style.display="block";
+  document.getElementById("connectPanel").style.display="none";
+  document.getElementById("dashboard").style.display="none";
   fetch(csvUrl)
-    .then(function(res){
-      if(!res.ok) throw new Error("HTTP_"+res.status);
-      return res.text();
-    })
+    .then(function(res){if(!res.ok)throw new Error("HTTP_"+res.status);return res.text();})
     .then(function(text){
-      hideLoading();
-      // Detect if Google returned an error HTML page instead of CSV
-      var trimmed=text.trim();
-      if(trimmed.charAt(0)==="<"||trimmed.indexOf("<!DOCTYPE")!==-1){
-        throw new Error("NOT_CSV");
-      }
+      document.getElementById("loadingState").style.display="none";
+      if(text.trim().charAt(0)==="<")throw new Error("NOT_CSV");
       var rows=parseCSV(text);
-      if(!rows.length||rows[0].length<2) throw new Error("EMPTY");
+      if(!rows.length||rows[0].length<2)throw new Error("EMPTY");
       var headers=rows[0].map(function(h){return h.trim();});
-      var dataRows=rows.slice(1).map(function(r){var o={};headers.forEach(function(h,i){o[h]=(r[i]||"").trim();});return o;});
-      state.rawHeaders=headers;state.rawRows=dataRows;
+      // Validate that required columns exist
+      var missing=[];
+      [COL.cse,COL.dateReceived,COL.status,COL.customerType].forEach(function(col){if(headers.indexOf(col)===-1)missing.push(col);});
+      if(missing.length>0){
+        // Show which headers were found to help debug
+        showError("<strong>Column mismatch.</strong> Expected columns not found in sheet: <code>"+missing.join("</code>, <code>")+"</code><br><br>Headers found in your sheet: <code>"+headers.slice(0,10).join("</code>, <code>")+(headers.length>10?"…":"")+"</code><br><br>Check that your sheet tab has the correct headers in row 1.");
+        return;
+      }
+      state.rawRows=rows.slice(1).map(function(r){var o={};headers.forEach(function(h,i){o[h]=(r[i]||"").trim();});return o;});
       state.sheetCsvUrl=csvUrl;
       localStorage.setItem("ob_gviz_url",csvUrl);
       showBadge();
-      var guess=autoMap(headers);
-      if(autoReconnect&&Object.values(state.mapping).some(function(v){return!!v;})){
-        // already have a mapping from before — reuse it
-        buildRecords();resetFilters();renderAll();
-      } else {
-        var allFound=["type","cse","dateReceived","status"].every(function(k){return!!guess[k];});
-        if(allFound){state.mapping=guess;buildRecords();resetFilters();renderAll();}
-        else{state.mapping=guess;renderMappingPanel(headers,guess);}
-      }
+      buildRecords();resetFilters();renderAll();
     })
     .catch(function(err){
-      hideLoading();
+      document.getElementById("loadingState").style.display="none";
+      document.getElementById("connectPanel").style.display="block";
       var msg=err.message||"";
       var hint;
-      if(msg==="NOT_CSV"||msg.indexOf("HTTP_403")!==-1||msg.indexOf("HTTP_401")!==-1){
-        hint='<strong>Access denied.</strong> The sheet needs to be shared as <code>Anyone with the link → Viewer</code>. Open the sheet → click <code>Share</code> → change General access to <code>Anyone with the link</code>.';
-      } else if(msg.indexOf("HTTP_")!==-1){
-        hint='<strong>Could not reach the sheet</strong> ('+msg+'). Double-check the URL and that the sheet is shared publicly.';
-      } else if(msg==="EMPTY"){
-        hint='<strong>The sheet loaded but looks empty.</strong> Make sure your data starts on row 1 with column headers.';
-      } else {
-        // likely a network / CORS error when running from file://
-        hint='<strong>Network error.</strong> This usually means the page is being opened as a local file (<code>file://</code>). To fix this, either:<br>• Upload this HTML file to <strong>GitHub Pages</strong> and open it from there, or<br>• Use the <strong>Upload CSV instead</strong> button above to load data without a network request.';
-      }
+      if(msg==="NOT_CSV"||msg.indexOf("HTTP_403")!==-1)
+        hint='<strong>Access denied.</strong> The sheet must be shared as <code>Anyone with the link → Viewer</code>.';
+      else if(msg==="EMPTY")
+        hint='<strong>Sheet looks empty.</strong> Make sure your data starts on row 1 with headers.';
+      else if(msg.indexOf("HTTP_")!==-1)
+        hint='<strong>Could not reach the sheet</strong> ('+msg+'). Check the URL and sharing settings.';
+      else
+        hint='<strong>Network error.</strong> If you\'re opening this file locally (<code>file://</code>), upload it to GitHub Pages first. Or use <strong>Upload CSV instead</strong> above.';
       showError(hint);
     });
 }
 
+function showError(html){var el=document.getElementById("connectError");el.innerHTML=html;el.style.display="block";}
 function showBadge(){
   var b=document.getElementById("sheetBadge");
   b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#1e6e42"/><path d="M8 9h8M8 12h8M8 15h5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg><span class="sheet-name">Google Sheet connected</span><button class="sheet-disconnect" id="disconnectBtn">✕</button>';
-  b.style.display="flex";document.getElementById("refreshBtn").style.display="inline-block";
+  b.style.display="flex";
+  document.getElementById("refreshBtn").style.display="inline-block";
   document.getElementById("disconnectBtn").addEventListener("click",disconnect);
 }
 function disconnect(){
   localStorage.removeItem("ob_gviz_url");state.sheetCsvUrl=null;
-  ["sheetBadge","refreshBtn","remapBtn"].forEach(function(id){document.getElementById(id).style.display="none";});
+  ["sheetBadge","refreshBtn"].forEach(function(id){document.getElementById(id).style.display="none";});
   document.getElementById("dashboard").style.display="none";
-  document.getElementById("mappingPanel").style.display="none";
   document.getElementById("connectPanel").style.display="block";
   document.getElementById("sheetUrlInput").value="";
   document.getElementById("connectError").style.display="none";
   document.getElementById("lastUpdated").textContent="";
 }
 
+/* ─── Sample data ─── */
 function loadSample(){
   var cses=["Priya Nair","Daniel Cho","Maria Lopez","Omar Haddad","Wei Zhang"];
+  var csms=["Ravi Kumar","Sara Ahmed"];
   var tw=[["Micro",50],["SMB",35],["Mega",15]];
+  var pw=[["B2C",60],["B2B",40]];
   var sw=[["Not Started Yet",10],["KickOff Scheduled",12],["Active OnBoarding",24],["SE OnHold",8],["Sales OnHold",6],["Monitoring",10],["Successfully Completed",21],["Failed to Launch",5],["Customer Paused",4]];
   function w(l){var t=l.reduce(function(s,p){return s+p[1];},0),r=Math.random()*t;for(var i=0;i<l.length;i++){r-=l[i][1];if(r<=0)return l[i][0];}return l[l.length-1][0];}
   var rows=[],today=new Date();
-  for(var i=0;i<42;i++){var st=w(sw),dago=Math.floor(Math.random()*150)+1,rec=new Date(today-dago*86400000),gl="";if(st==="Successfully Completed"||(st==="Monitoring"&&Math.random()<.4)){var cyc=Math.floor(Math.random()*35)+10,gld=new Date(rec.getTime()+cyc*86400000);if(gld<=today)gl=gld.toISOString().slice(0,10);}rows.push({"Customer Name":"Customer "+(i+1),"Type of Customer":w(tw),"CSE":cses[Math.floor(Math.random()*cses.length)],"Date Received":rec.toISOString().slice(0,10),"Onboarding Status":st,"GoLive Date":gl});}
-  state.rawHeaders=Object.keys(rows[0]);state.rawRows=rows;
-  state.mapping={name:"Customer Name",type:"Type of Customer",cse:"CSE",dateReceived:"Date Received",status:"Onboarding Status",goLiveDate:"GoLive Date"};
-  buildRecords();document.getElementById("connectPanel").style.display="none";
-  document.getElementById("remapBtn").style.display="inline-block";resetFilters();renderAll();
+  for(var i=0;i<45;i++){
+    var st=w(sw),dago=Math.floor(Math.random()*150)+1,rec=new Date(today-dago*86400000),gl="";
+    if(st==="Successfully Completed"||(st==="Monitoring"&&Math.random()<.4)){var cyc=Math.floor(Math.random()*35)+10,gld=new Date(rec.getTime()+cyc*86400000);if(gld<=today)gl=gld.toISOString().slice(0,10);}
+    var r={};
+    r[COL.name]="Business "+(i+1);
+    r[COL.project]=w(pw);
+    r[COL.customerType]=w(tw);
+    r[COL.csm]=csms[Math.floor(Math.random()*csms.length)];
+    r[COL.cse]=cses[Math.floor(Math.random()*cses.length)];
+    r[COL.dateReceived]=rec.toISOString().slice(0,10);
+    r[COL.goLiveDate]=gl;
+    r[COL.status]=st;
+    r[COL.notes]=Math.random()<.4?"Following up with customer on integration setup":"";
+    rows.push(r);
+  }
+  state.rawRows=rows;buildRecords();
+  document.getElementById("connectPanel").style.display="none";
+  resetFilters();renderAll();
 }
 
-function renderMappingPanel(headers,prefill){
-  var panel=document.getElementById("mappingPanel");
-  var fields=[{key:"type",label:"Type of Customer",req:true},{key:"cse",label:"CSE",req:true},{key:"dateReceived",label:"Date Received",req:true},{key:"status",label:"Onboarding Status",req:true},{key:"goLiveDate",label:"Go-Live Date",req:false},{key:"name",label:"Customer Name",req:false}];
-  var h='<h3>Match your columns</h3><p class="hint">We guessed based on your headers — verify and click Build.</p><div class="mapping-grid">';
-  fields.forEach(function(f){h+='<div class="map-field"><label>'+f.label+(f.req?' <span class="req">*</span>':' (optional)')+'</label><select data-field="'+f.key+'"><option value="">'+(f.req?'— select —':'None')+'</option>'+headers.map(function(hh){return'<option value="'+esc(hh)+'"'+(prefill[f.key]===hh?" selected":"")+'>'+esc(hh)+'</option>';}).join("")+'</select></div>';});
-  h+='</div><div class="mapping-actions"><button class="btn btn-primary" id="buildBtn">Build dashboard</button><span class="map-warning" id="mapWarning"></span></div>';
-  panel.innerHTML=h;panel.style.display="block";
-  document.getElementById("buildBtn").addEventListener("click",function(){
-    var sel=panel.querySelectorAll("select"),m={};sel.forEach(function(s){m[s.getAttribute("data-field")]=s.value;});
-    var miss=["type","cse","dateReceived","status"].filter(function(k){return!m[k];});
-    if(miss.length){document.getElementById("mapWarning").textContent="Still need: "+miss.join(", ");return;}
-    state.mapping=m;buildRecords();panel.style.display="none";document.getElementById("remapBtn").style.display="inline-block";resetFilters();renderAll();
-  });
-}
-
+/* ─── Render functions ─── */
 function renderPipeline(){
   var counts={};state.records.forEach(function(r){counts[r.status]=(counts[r.status]||0)+1;});
-  document.getElementById("pipelineMain").innerHTML=MAIN_PATH.map(function(s,i){return'<div class="pipe-node"><div class="pipe-dot" style="background:'+STATUS_META[s].color+'">'+(counts[s]||0)+'</div><div class="pipe-label">'+s+'</div></div>'+(i<MAIN_PATH.length-1?'<div class="pipe-connector"></div>':"");}).join("");
-  document.getElementById("pipelineBranches").innerHTML='<span class="branches-label">Exceptions</span>'+BRANCH_STATUSES.map(function(s){return'<div class="branch-chip"><span class="branch-dot" style="background:'+STATUS_META[s].color+'"></span>'+s+' <span class="branch-count">'+(counts[s]||0)+'</span></div>';}).join("");
+  document.getElementById("pipelineMain").innerHTML=MAIN_PATH.map(function(s,i){
+    return'<div class="pipe-node"><div class="pipe-dot" style="background:'+STATUS_META[s].color+'">'+(counts[s]||0)+'</div><div class="pipe-label">'+s+'</div></div>'+(i<MAIN_PATH.length-1?'<div class="pipe-connector"></div>':"");
+  }).join("");
+  document.getElementById("pipelineBranches").innerHTML='<span class="branches-label">Exceptions</span>'+BRANCH_STATUSES.map(function(s){
+    return'<div class="branch-chip"><span class="branch-dot" style="background:'+STATUS_META[s].color+'"></span>'+s+' <span class="branch-count">'+(counts[s]||0)+'</span></div>';
+  }).join("");
 }
+
 function renderStats(){
-  var r=state.records,iF=r.filter(function(x){return IN_FLIGHT.indexOf(x.status)!==-1;}),comp=r.filter(function(x){return x.status==="Successfully Completed";}),fail=r.filter(function(x){return x.status==="Failed to Launch";}),term=comp.length+fail.length,sr=term?Math.round(comp.length/term*100):0,aA=iF.length?Math.round(iF.reduce(function(s,x){return s+(x.age||0);},0)/iF.length):0,wGL=r.filter(function(x){return x.daysToGoLive!==null;}),aGL=wGL.length?Math.round(wGL.reduce(function(s,x){return s+x.daysToGoLive;},0)/wGL.length):null,atR=iF.filter(function(x){return(x.age||0)>=state.riskThreshold;}).length;
-  document.getElementById("statsGrid").innerHTML=[{label:"Total accounts",value:r.length,sub:iF.length+" in flight"},{label:"Successfully completed",value:comp.length,sub:sr+"% success rate"},{label:"Avg. days to go-live",value:aGL===null?"—":aGL,sub:wGL.length+" with go-live date"},{label:"Avg. age (in flight)",value:aA+"d",sub:iF.length+" active"},{label:"At risk",value:atR,sub:"≥ "+state.riskThreshold+" days, not live"}].map(function(c){return'<div class="stat-card"><div class="stat-value">'+c.value+'</div><div class="stat-label">'+c.label+'</div><div class="stat-sub">'+c.sub+'</div></div>';}).join("");
+  var r=state.records,iF=r.filter(function(x){return IN_FLIGHT.indexOf(x.status)!==-1;});
+  var comp=r.filter(function(x){return x.status==="Successfully Completed";});
+  var fail=r.filter(function(x){return x.status==="Failed to Launch";});
+  var term=comp.length+fail.length,sr=term?Math.round(comp.length/term*100):0;
+  var aA=iF.length?Math.round(iF.reduce(function(s,x){return s+(x.age||0);},0)/iF.length):0;
+  var wGL=r.filter(function(x){return x.daysToGoLive!==null;});
+  var aGL=wGL.length?Math.round(wGL.reduce(function(s,x){return s+x.daysToGoLive;},0)/wGL.length):null;
+  var atR=iF.filter(function(x){return(x.age||0)>=state.riskThreshold;}).length;
+  document.getElementById("statsGrid").innerHTML=[
+    {label:"Total accounts",value:r.length,sub:iF.length+" in flight"},
+    {label:"Successfully completed",value:comp.length,sub:sr+"% success rate"},
+    {label:"Avg. days to go-live",value:aGL===null?"—":aGL,sub:wGL.length+" with go-live date"},
+    {label:"Avg. age (in flight)",value:aA+"d",sub:iF.length+" active"},
+    {label:"At risk",value:atR,sub:"≥ "+state.riskThreshold+" days, not live"}
+  ].map(function(c){return'<div class="stat-card"><div class="stat-value">'+c.value+'</div><div class="stat-label">'+c.label+'</div><div class="stat-sub">'+c.sub+'</div></div>';}).join("");
 }
-function renderTypeDonut(){
-  var counts={};state.records.forEach(function(r){counts[r.type]=(counts[r.type]||0)+1;});
-  var total=state.records.length||1,stops="",acc=0,leg="";
-  TYPE_ORDER.forEach(function(t){var c=counts[t]||0,p=(c/total)*100;stops+=TYPE_COLOR[t]+" "+acc+"% "+(acc+p)+"%, ";acc+=p;leg+='<div class="legend-row"><span class="legend-dot" style="background:'+TYPE_COLOR[t]+'"></span><span class="legend-name">'+t+'</span><span class="legend-count">'+c+'</span></div>';});
-  document.getElementById("typeDonutWrap").innerHTML='<div class="donut" style="background:conic-gradient('+stops.slice(0,-2)+')"><div class="donut-center"><div class="n">'+state.records.length+'</div><div class="l">accounts</div></div></div><div class="legend">'+leg+'</div>';
+
+function makeDonut(containerId,groups,colorMap){
+  var counts={};state.records.forEach(function(r){var k=r[groups];counts[k]=(counts[k]||0)+1;});
+  var keys=Object.keys(counts);var total=state.records.length||1;
+  var stops="",acc=0,leg="";
+  keys.forEach(function(k){
+    var c=counts[k],p=(c/total)*100,col=colorMap[k]||"var(--text-faint)";
+    stops+=col+" "+acc+"% "+(acc+p)+"%, ";acc+=p;
+    leg+='<div class="legend-row"><span class="legend-dot" style="background:'+col+'"></span><span class="legend-name">'+esc(k||"—")+'</span><span class="legend-count">'+c+'</span></div>';
+  });
+  document.getElementById(containerId).innerHTML='<div class="donut" style="background:conic-gradient('+stops.slice(0,-2)+')"><div class="donut-center"><div class="n">'+total+'</div><div class="l">total</div></div></div><div class="legend">'+leg+'</div>';
 }
+
 function renderCseRows(){
   var byCse={};state.records.forEach(function(r){byCse[r.cse]=byCse[r.cse]||{};byCse[r.cse][r.status]=(byCse[r.cse][r.status]||0)+1;});
   var entries=Object.keys(byCse).map(function(n){var t=Object.values(byCse[n]).reduce(function(s,v){return s+v;},0);return{name:n,statuses:byCse[n],total:t};}).sort(function(a,b){return b.total-a.total;});
   var max=entries.length?entries[0].total:1;
-  document.getElementById("cseRows").innerHTML=entries.map(function(e){return'<div class="cse-row"><div class="cse-name">'+esc(e.name)+'</div><div class="cse-bar">'+STATUS_ORDER.map(function(s){var c=e.statuses[s];return c?'<span title="'+s+': '+c+'" style="width:'+(c/max*100)+'%;background:'+STATUS_META[s].color+'"></span>':"";}).join("")+'</div><div class="cse-total">'+e.total+'</div></div>';}).join("")||'<div class="no-risk">No data</div>';
+  document.getElementById("cseRows").innerHTML=entries.map(function(e){
+    return'<div class="cse-row"><div class="cse-name" title="'+esc(e.name)+'">'+esc(e.name)+'</div><div class="cse-bar">'+STATUS_ORDER.map(function(s){var c=e.statuses[s];return c?'<span title="'+s+': '+c+'" style="width:'+(c/max*100)+'%;background:'+STATUS_META[s].color+'"></span>':"";}).join("")+'</div><div class="cse-total">'+e.total+'</div></div>';
+  }).join("")||'<div class="no-risk">No data</div>';
 }
+
 function renderAtRisk(){
-  var t=state.riskThreshold,risky=state.records.filter(function(r){return IN_FLIGHT.indexOf(r.status)!==-1&&r.age!==null&&r.age>=t;}).sort(function(a,b){return(b.age||0)-(a.age||0);}).slice(0,8);
-  document.getElementById("riskList").innerHTML=risky.length?risky.map(function(r){return'<div class="risk-item" style="border-left-color:'+STATUS_META[r.status].color+'"><div class="name">'+esc(r.name)+'</div><div class="meta">'+esc(r.cse)+' · '+r.type+'</div><div class="meta">'+r.status+'</div><div class="age">'+r.age+'d</div></div>';}).join(""):'<div class="no-risk">Nothing stuck past '+t+' days right now.</div>';
+  var t=state.riskThreshold;
+  var risky=state.records.filter(function(r){return IN_FLIGHT.indexOf(r.status)!==-1&&r.age!==null&&r.age>=t;}).sort(function(a,b){return(b.age||0)-(a.age||0);}).slice(0,8);
+  document.getElementById("riskList").innerHTML=risky.length?risky.map(function(r){
+    return'<div class="risk-item" style="border-left-color:'+STATUS_META[r.status].color+'"><div class="name">'+esc(r.name)+'</div><div class="meta">'+esc(r.cse)+(r.csm?' · '+esc(r.csm):'')+'</div><div class="meta">'+r.type+' · '+r.project+'</div><div class="meta">'+r.status+'</div><div class="age">'+r.age+'d</div></div>';
+  }).join(""):'<div class="no-risk">Nothing stuck past '+t+' days right now.</div>';
 }
-function resetFilters(){state.filters={types:new Set(),statuses:new Set(),cse:"all",search:""};}
+
+function resetFilters(){state.filters={types:new Set(),projects:new Set(),statuses:new Set(),cse:"all",search:""};}
+
 function renderFilters(){
   var cses=Array.from(new Set(state.records.map(function(r){return r.cse;}))).sort();
-  var h='<input class="search-input" id="searchInput" placeholder="Search customer or CSE…" value="'+esc(state.filters.search)+'">';
-  h+='<select class="cse-select" id="cseSelect"><option value="all">All CSEs</option>'+cses.map(function(c){return'<option value="'+esc(c)+'"'+(state.filters.cse===c?" selected":"")+'>'+esc(c)+'</option>';}).join("")+'</select>';
+  var h='<input class="search-input" id="searchInput" placeholder="Search business, CSE, CSM…" value="'+esc(state.filters.search)+'">';
+  h+='<select class="filter-select" id="cseSelect"><option value="all">All CSEs</option>'+cses.map(function(c){return'<option value="'+esc(c)+'"'+(state.filters.cse===c?" selected":"")+'>'+esc(c)+'</option>';}).join("")+'</select>';
+  // Type chips
   TYPE_ORDER.forEach(function(t){var a=state.filters.types.has(t);h+='<button class="chip type-chip" data-type="'+t+'" style="'+(a?"background:"+TYPE_COLOR[t]+";border-color:transparent;color:#06101F":"")+'">'+t+'</button>';});
+  // Project chips
+  ["B2C","B2B"].forEach(function(p){var a=state.filters.projects.has(p);h+='<button class="chip proj-chip" data-proj="'+p+'" style="'+(a?"background:"+PROJ_COLOR[p]+";border-color:transparent;color:#06101F":"")+'">'+p+'</button>';});
+  // Status chips
   STATUS_ORDER.forEach(function(s){var a=state.filters.statuses.has(s);h+='<button class="chip status-chip" data-status="'+esc(s)+'" style="'+(a?"background:"+STATUS_META[s].color+";border-color:transparent;color:#06101F":"")+'">'+s+'</button>';});
-  h+='<button class="btn btn-ghost chip-clear" id="clearFilters">Clear filters</button>';
+  h+='<button class="btn btn-ghost chip-clear" id="clearFilters">Clear</button>';
   document.getElementById("filtersRow").innerHTML=h;
   document.getElementById("searchInput").addEventListener("input",function(e){state.filters.search=e.target.value;renderTable();});
   document.getElementById("cseSelect").addEventListener("change",function(e){state.filters.cse=e.target.value;renderTable();});
   document.querySelectorAll(".type-chip").forEach(function(b){b.addEventListener("click",function(){var t=b.getAttribute("data-type");if(state.filters.types.has(t))state.filters.types.delete(t);else state.filters.types.add(t);renderFilters();renderTable();});});
+  document.querySelectorAll(".proj-chip").forEach(function(b){b.addEventListener("click",function(){var p=b.getAttribute("data-proj");if(state.filters.projects.has(p))state.filters.projects.delete(p);else state.filters.projects.add(p);renderFilters();renderTable();});});
   document.querySelectorAll(".status-chip").forEach(function(b){b.addEventListener("click",function(){var s=b.getAttribute("data-status");if(state.filters.statuses.has(s))state.filters.statuses.delete(s);else state.filters.statuses.add(s);renderFilters();renderTable();});});
   document.getElementById("clearFilters").addEventListener("click",function(){resetFilters();renderFilters();renderTable();});
 }
+
 function filteredSorted(){
-  var f=state.filters,rows=state.records.filter(function(r){if(f.types.size&&!f.types.has(r.type))return false;if(f.statuses.size&&!f.statuses.has(r.status))return false;if(f.cse!=="all"&&r.cse!==f.cse)return false;if(f.search&&(r.name+" "+r.cse).toLowerCase().indexOf(f.search.toLowerCase())===-1)return false;return true;});
+  var f=state.filters;
+  var rows=state.records.filter(function(r){
+    if(f.types.size&&!f.types.has(r.type))return false;
+    if(f.projects.size&&!f.projects.has(r.project))return false;
+    if(f.statuses.size&&!f.statuses.has(r.status))return false;
+    if(f.cse!=="all"&&r.cse!==f.cse)return false;
+    if(f.search){var hay=(r.name+" "+r.cse+" "+r.csm+" "+r.notes).toLowerCase();if(hay.indexOf(f.search.toLowerCase())===-1)return false;}
+    return true;
+  });
   var key=state.sort.key,dir=state.sort.dir;
-  rows.sort(function(a,b){var av=a[key],bv=b[key];if(av instanceof Date)av=av.getTime();if(bv instanceof Date)bv=bv.getTime();if(av===null||av===undefined)av=-Infinity;if(bv===null||bv===undefined)bv=-Infinity;if(typeof av==="string")return dir==="asc"?av.localeCompare(bv):bv.localeCompare(av);return dir==="asc"?av-bv:bv-av;});
+  rows.sort(function(a,b){
+    var av=a[key],bv=b[key];
+    if(av instanceof Date)av=av.getTime();if(bv instanceof Date)bv=bv.getTime();
+    if(av===null||av===undefined)av=-Infinity;if(bv===null||bv===undefined)bv=-Infinity;
+    if(typeof av==="string")return dir==="asc"?av.localeCompare(bv):bv.localeCompare(av);
+    return dir==="asc"?av-bv:bv-av;
+  });
   return rows;
 }
+
 function renderTable(){
   var rows=filteredSorted();
   document.getElementById("rowCountNote").textContent=rows.length+" of "+state.records.length+" accounts";
-  document.getElementById("tableBody").innerHTML=rows.length?rows.map(function(r){var rc=r.status==="Successfully Completed"?"success-row":r.status==="Failed to Launch"?"failed-row":(IN_FLIGHT.indexOf(r.status)!==-1&&r.age!==null&&r.age>=state.riskThreshold?"risk-row":"");var meta=STATUS_META[r.status]||{color:"var(--text-dim)"};return'<tr class="'+rc+'"><td>'+esc(r.name)+'</td><td class="type-pill">'+r.type+'</td><td>'+esc(r.cse)+'</td><td><span class="badge" style="background:'+meta.color+'22;color:'+meta.color+'">'+r.status+'</span></td><td class="mono">'+fmtDate(r.dateReceived)+'</td><td class="mono">'+(r.age===null?"—":r.age)+'</td><td class="mono">'+fmtDate(r.goLiveDate)+'</td><td class="mono">'+(r.daysToGoLive===null?"—":r.daysToGoLive)+'</td></tr>';}).join(""):'<tr><td colspan="8" class="empty-row">No accounts match these filters.</td></tr>';
+  document.getElementById("tableBody").innerHTML=rows.length?rows.map(function(r){
+    var rc=r.status==="Successfully Completed"?"success-row":r.status==="Failed to Launch"?"failed-row":(IN_FLIGHT.indexOf(r.status)!==-1&&r.age!==null&&r.age>=state.riskThreshold?"risk-row":"");
+    var meta=STATUS_META[r.status]||{color:"var(--text-dim)"};
+    var typeColor=TYPE_COLOR[r.type]||"var(--text-dim)";
+    var projColor=PROJ_COLOR[r.project]||"var(--text-dim)";
+    return'<tr class="'+rc+'">'+
+      '<td><strong>'+esc(r.name)+'</strong></td>'+
+      '<td><span class="proj-pill" style="background:'+projColor+'22;color:'+projColor+'">'+esc(r.project||"—")+'</span></td>'+
+      '<td><span class="type-pill" style="color:'+typeColor+'">'+esc(r.type||"—")+'</span></td>'+
+      '<td class="mono">'+esc(r.csm||"—")+'</td>'+
+      '<td class="mono">'+esc(r.cse)+'</td>'+
+      '<td><span class="badge" style="background:'+meta.color+'22;color:'+meta.color+'">'+r.status+'</span></td>'+
+      '<td class="mono">'+fmtDate(r.dateReceived)+'</td>'+
+      '<td class="mono">'+(r.age===null?"—":r.age)+'</td>'+
+      '<td class="mono">'+fmtDate(r.goLiveDate)+'</td>'+
+      '<td class="mono">'+(r.daysToGoLive===null?"—":r.daysToGoLive)+'</td>'+
+      '<td class="notes-cell" title="'+esc(r.notes)+'">'+esc(r.notes||"—")+'</td>'+
+      '</tr>';
+  }).join(""):'<tr><td colspan="11" class="empty-row">No accounts match these filters.</td></tr>';
 }
+
 function renderAll(){
   document.getElementById("dashboard").style.display="block";
   document.getElementById("lastUpdated").textContent="Updated "+new Date().toLocaleTimeString();
-  renderPipeline();renderStats();renderTypeDonut();renderCseRows();renderAtRisk();renderFilters();renderTable();
-  document.querySelectorAll("thead th").forEach(function(th){th.addEventListener("click",function(){var k=th.getAttribute("data-key");if(state.sort.key===k)state.sort.dir=state.sort.dir==="asc"?"desc":"asc";else{state.sort.key=k;state.sort.dir="asc";}renderTable();});});
+  renderPipeline();renderStats();
+  makeDonut("typeDonutWrap","type",TYPE_COLOR);
+  makeDonut("projDonutWrap","project",PROJ_COLOR);
+  renderCseRows();renderAtRisk();renderFilters();renderTable();
+  document.querySelectorAll("thead th").forEach(function(th){
+    th.addEventListener("click",function(){
+      var k=th.getAttribute("data-key");
+      if(state.sort.key===k)state.sort.dir=state.sort.dir==="asc"?"desc":"asc";
+      else{state.sort.key=k;state.sort.dir="asc";}
+      renderTable();
+    });
+  });
 }
 
-/* ─── Events ─── */
+/* ─── Wire events ─── */
 document.getElementById("connectBtn").addEventListener("click",function(){
   var raw=document.getElementById("sheetUrlInput").value.trim();
   document.getElementById("connectError").style.display="none";
-  var csvUrl=toGvizCsvUrl(raw);
-  if(!csvUrl){showError("<strong>That doesn't look like a Google Sheets URL.</strong> Copy the URL from your browser address bar while the sheet is open.");return;}
-  fetchAndIngest(csvUrl,false);
+  var url=toGvizUrl(raw);
+  if(!url){showError("<strong>That doesn't look like a Google Sheets URL.</strong> Copy the URL from your browser address bar while the sheet is open.");return;}
+  fetchAndIngest(url);
 });
 document.getElementById("sheetUrlInput").addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("connectBtn").click();});
 document.getElementById("refreshBtn").addEventListener("click",function(){
@@ -496,23 +609,28 @@ document.getElementById("refreshBtn").addEventListener("click",function(){
     btn.innerHTML="↻ Refresh";btn.disabled=false;
     var rows=parseCSV(text);if(!rows.length)return;
     var headers=rows[0].map(function(h){return h.trim();});
-    var dataRows=rows.slice(1).map(function(r){var o={};headers.forEach(function(h,i){o[h]=(r[i]||"").trim();});return o;});
-    state.rawHeaders=headers;state.rawRows=dataRows;buildRecords();resetFilters();renderAll();
+    state.rawRows=rows.slice(1).map(function(r){var o={};headers.forEach(function(h,i){o[h]=(r[i]||"").trim();});return o;});
+    buildRecords();resetFilters();renderAll();
   }).catch(function(){btn.innerHTML="↻ Refresh";btn.disabled=false;alert("Refresh failed.");});
 });
 document.getElementById("uploadBtn").addEventListener("click",function(){document.getElementById("fileInput").click();});
 document.getElementById("fileInput").addEventListener("change",function(e){
   if(!e.target.files[0])return;
   var reader=new FileReader();
-  reader.onload=function(ev){var rows=parseCSV(ev.target.result);if(!rows.length)return;var headers=rows[0].map(function(h){return h.trim();});var dataRows=rows.slice(1).map(function(r){var o={};headers.forEach(function(h,i){o[h]=(r[i]||"").trim();});return o;});state.rawHeaders=headers;state.rawRows=dataRows;document.getElementById("connectPanel").style.display="none";renderMappingPanel(headers,autoMap(headers));};
+  reader.onload=function(ev){
+    var rows=parseCSV(ev.target.result);if(!rows.length)return;
+    var headers=rows[0].map(function(h){return h.trim();});
+    state.rawRows=rows.slice(1).map(function(r){var o={};headers.forEach(function(h,i){o[h]=(r[i]||"").trim();});return o;});
+    document.getElementById("connectPanel").style.display="none";
+    buildRecords();resetFilters();renderAll();
+  };
   reader.readAsText(e.target.files[0]);
 });
 document.getElementById("sampleBtn").addEventListener("click",loadSample);
-document.getElementById("remapBtn").addEventListener("click",function(){document.getElementById("dashboard").style.display="none";renderMappingPanel(state.rawHeaders,state.mapping);});
 document.getElementById("riskThreshold").addEventListener("input",function(e){state.riskThreshold=parseInt(e.target.value,10)||30;renderStats();renderAtRisk();renderTable();});
 
-/* ─── Restore ─── */
-(function(){var saved=localStorage.getItem("ob_gviz_url");if(saved){state.sheetCsvUrl=saved;fetchAndIngest(saved,true);}})();
+/* ─── Auto-reconnect from localStorage ─── */
+(function(){var saved=localStorage.getItem("ob_gviz_url");if(saved){state.sheetCsvUrl=saved;fetchAndIngest(saved);}})();
 })();
 </script>
 </body>
