@@ -191,7 +191,7 @@ footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;bo
     <div class="url-section">
       <label>Google Sheets URL</label>
       <div class="url-row">
-        <input class="url-input" id="sheetUrlInput" type="url" placeholder="https://docs.google.com/spreadsheets/d/…/edit">
+        <input class="url-input" id="sheetUrlInput" type="url" value="https://docs.google.com/spreadsheets/d/1qD9SALPDLqM-d6h8ToIybBWiYMxi2o_GFBtUSEkACF8/edit?gid=204645308#gid=204645308" placeholder="https://docs.google.com/spreadsheets/d/…/edit">
         <button class="btn btn-primary" id="connectBtn">Connect</button>
       </div>
       <div class="connect-error" id="connectError"></div>
@@ -302,11 +302,20 @@ var IN_FLIGHT=["Not Started Yet","KickOff Scheduled","Active OnBoarding","SE OnH
 var state={rawRows:[],records:[],filters:{types:new Set(),projects:new Set(),statuses:new Set(),cse:"all",search:""},sort:{key:"age",dir:"desc"},riskThreshold:30,sheetCsvUrl:null};
 
 /* ─── URL → gviz CSV (works with CORS, just needs "anyone with link" sharing) ─── */
+/* Hardcoded sheet config — update these if the sheet ever changes */
+var HARDCODED_SHEET_ID = "1qD9SALPDLqM-d6h8ToIybBWiYMxi2o_GFBtUSEkACF8";
+var HARDCODED_GID      = "204645308"; // tab: OnBoardingnew
+
 function toGvizUrl(input){
-  var m=input.trim().match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
-  if(!m)return null;
-  var gid=(input.match(/[#&?]gid=(\d+)/)||[])[1]||"0";
-  return "https://docs.google.com/spreadsheets/d/"+m[1]+"/gviz/tq?tqx=out:csv&gid="+gid;
+  var s = input.trim();
+  // Extract sheet ID from URL (or fall back to hardcoded)
+  var mId = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  var sheetId = mId ? mId[1] : HARDCODED_SHEET_ID;
+  // Extract gid — check both ?gid= and #gid= forms; fall back to hardcoded
+  var mGid = s.match(/[#&?]gid=(\d+)/);
+  var gid = mGid ? mGid[1] : HARDCODED_GID;
+  if(!sheetId) return null;
+  return "https://docs.google.com/spreadsheets/d/"+sheetId+"/gviz/tq?tqx=out:csv&gid="+gid;
 }
 
 /* ─── CSV parser ─── */
