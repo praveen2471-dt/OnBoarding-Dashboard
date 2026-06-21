@@ -147,6 +147,43 @@ tbody tr.failed-row{box-shadow:inset 3px 0 0 var(--s-failed);}
 .notes-cell{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-dim);font-size:12px;}
 .empty-row{text-align:center;color:var(--text-dim);padding:30px;}
 .refresh-ring{display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--accent);border-top-color:transparent;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
+/* ── CSE KPI ── */
+.kpi-section{margin-bottom:28px;}
+.kpi-sort-row{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+.kpi-sort-row label{font-size:12px;color:var(--text-faint);}
+.kpi-sort-btn{font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--text-dim);border-radius:999px;padding:5px 13px;transition:all .12s;}
+.kpi-sort-btn.active{background:var(--accent);color:#06231F;border-color:var(--accent);}
+.kpi-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:4px;}
+.kpi-table thead th{text-align:left;color:var(--text-faint);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;padding:0 12px 10px;border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;font-weight:600;}
+.kpi-table thead th:hover{color:var(--accent);}
+.kpi-table thead th.sorted{color:var(--accent);}
+.kpi-table tbody tr.kpi-row{cursor:pointer;transition:background .1s;}
+.kpi-table tbody tr.kpi-row:hover td{background:var(--bg-elev-2);}
+.kpi-table tbody tr.kpi-row.expanded td{background:var(--bg-elev-2);}
+.kpi-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border-soft);vertical-align:middle;}
+.kpi-table tbody tr.kpi-detail td{padding:0;border-bottom:1px solid var(--border);}
+.kpi-detail-inner{padding:20px 24px 24px;display:none;}
+.kpi-detail-inner.open{display:grid;grid-template-columns:200px 200px 1fr;gap:20px;}
+.kpi-mini-donut{position:relative;width:100px;height:100px;border-radius:50%;flex-shrink:0;}
+.kpi-mini-center{position:absolute;inset:16px;background:var(--bg-elev-2);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.kpi-mini-center .n{font-family:var(--font-display);font-size:17px;font-weight:700;}
+.kpi-mini-center .l{font-size:9px;color:var(--text-faint);text-transform:uppercase;}
+.kpi-donut-wrap{display:flex;align-items:center;gap:14px;}
+.kpi-legend{display:flex;flex-direction:column;gap:7px;}
+.kpi-legend-row{display:flex;align-items:center;gap:7px;font-size:12px;}
+.kpi-legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.kpi-detail-col h4{font-family:var(--font-display);font-size:13px;font-weight:600;margin:0 0 12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;}
+.kpi-accounts-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;}
+.kpi-acc-row{display:flex;align-items:center;gap:8px;font-size:12px;}
+.kpi-acc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.kpi-acc-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.kpi-acc-age{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
+.rate-bar-wrap{margin-top:6px;}
+.rate-bar{height:8px;background:var(--bg-elev-2);border-radius:4px;overflow:hidden;margin-top:4px;display:flex;}
+.rate-fill{height:100%;border-radius:4px 0 0 4px;background:var(--s-completed);}
+.rate-fail-fill{height:100%;background:var(--s-failed);}
+.kpi-expand-icon{float:right;color:var(--text-faint);transition:transform .2s;display:inline-block;}
+.kpi-row.expanded .kpi-expand-icon{transform:rotate(180deg);}
 footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;border-top:1px solid var(--border-soft);padding-top:18px;}
 @media(max-width:1100px){.charts-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:800px){.stats-grid{grid-template-columns:repeat(2,1fr);}.charts-grid{grid-template-columns:1fr;}.risk-item{grid-template-columns:1fr 1fr;}}
@@ -233,6 +270,30 @@ footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;bo
       <div class="risk-list" id="riskList"></div>
     </section>
     <section>
+    <section class="kpi-section">
+      <div class="section-head">
+        <p class="section-title">CSE Performance KPIs</p>
+        <p class="section-note">click any row to expand · sort by column header</p>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="kpi-table" id="kpiTable">
+          <thead><tr>
+            <th data-kpi="cse">CSE</th>
+            <th data-kpi="total">Total</th>
+            <th data-kpi="active">Active</th>
+            <th data-kpi="completed">Completed</th>
+            <th data-kpi="failed">Failed</th>
+            <th data-kpi="successRate">Success Rate</th>
+            <th data-kpi="avgGoLive">Avg Days to Go-Live</th>
+            <th data-kpi="atRisk">At Risk</th>
+            <th data-kpi="mega">Mega</th>
+            <th data-kpi="smb">SMB</th>
+            <th data-kpi="micro">Micro</th>
+          </tr></thead>
+          <tbody id="kpiBody"></tbody>
+        </table>
+      </div>
+    </section>
       <div class="section-head"><p class="section-title">All onboardings</p><p class="section-note" id="rowCountNote"></p></div>
       <div class="filters-row" id="filtersRow"></div>
       <div style="overflow-x:auto;">
@@ -591,7 +652,7 @@ function renderAll(){
   renderPipeline();renderStats();
   makeDonut("typeDonutWrap","type",TYPE_COLOR);
   makeDonut("projDonutWrap","project",PROJ_COLOR);
-  renderCseRows();renderAtRisk();renderFilters();renderTable();
+  renderCseRows();renderAtRisk();renderCseKpi();renderFilters();renderTable();
   document.querySelectorAll("thead th").forEach(function(th){
     th.addEventListener("click",function(){
       var k=th.getAttribute("data-key");
@@ -602,6 +663,177 @@ function renderAll(){
   });
 }
 
+
+/* ─── CSE KPI ─── */
+var kpiSort = {key:"active", dir:"desc"};
+
+function computeCseKpis(){
+  var map = {};
+  state.records.forEach(function(r){
+    var c = r.cse;
+    if(!map[c]) map[c]={cse:c,total:0,active:0,completed:0,failed:0,onHold:0,goLiveDays:[],atRisk:0,micro:0,smb:0,mega:0,accounts:[]};
+    var m=map[c];
+    m.total++;
+    m.accounts.push(r);
+    if(IN_FLIGHT.indexOf(r.status)!==-1) m.active++;
+    if(r.status==="Successfully Completed") m.completed++;
+    if(r.status==="Failed to Launch") m.failed++;
+    if(r.status==="SE OnHold"||r.status==="Sales OnHold") m.onHold++;
+    if(r.daysToGoLive!==null) m.goLiveDays.push(r.daysToGoLive);
+    if(IN_FLIGHT.indexOf(r.status)!==-1 && r.age!==null && r.age>=state.riskThreshold) m.atRisk++;
+    var t=(r.type||"").toLowerCase();
+    if(t==="micro") m.micro++;
+    else if(t==="smb") m.smb++;
+    else if(t==="mega") m.mega++;
+  });
+  return Object.values(map).map(function(m){
+    var closed = m.completed + m.failed;
+    m.successRate = closed ? Math.round(m.completed/closed*100) : null;
+    m.avgGoLive = m.goLiveDays.length ? Math.round(m.goLiveDays.reduce(function(a,b){return a+b;},0)/m.goLiveDays.length) : null;
+    return m;
+  });
+}
+
+function renderCseKpi(){
+  var data = computeCseKpis();
+  var key=kpiSort.key, dir=kpiSort.dir;
+  data.sort(function(a,b){
+    var av=a[key],bv=b[key];
+    if(av===null||av===undefined)av=dir==="asc"?Infinity:-Infinity;
+    if(bv===null||bv===undefined)bv=dir==="asc"?Infinity:-Infinity;
+    if(typeof av==="string")return dir==="asc"?av.localeCompare(bv):bv.localeCompare(av);
+    return dir==="asc"?av-bv:bv-av;
+  });
+
+  // update sort indicators
+  document.querySelectorAll(".kpi-table thead th").forEach(function(th){
+    th.classList.toggle("sorted", th.getAttribute("data-kpi")===key);
+    th.textContent = th.getAttribute("data-kpi-label")||th.textContent.replace(" ▲","").replace(" ▼","");
+    if(th.getAttribute("data-kpi")===key) th.textContent += (dir==="asc"?" ▲":" ▼");
+  });
+
+  var body = document.getElementById("kpiBody");
+  var html = "";
+  data.forEach(function(m, idx){
+    var sr = m.successRate===null?"—":m.successRate+"%";
+    var gl = m.avgGoLive===null?"—":m.avgGoLive+"d";
+    var srColor = m.successRate===null?"var(--text-dim)":m.successRate>=80?"var(--s-completed)":m.successRate>=50?"var(--s-seonhold)":"var(--s-failed)";
+    var atRiskColor = m.atRisk>0?"var(--s-seonhold)":"var(--text-dim)";
+    html += '<tr class="kpi-row" data-idx="'+idx+'">';
+    html += '<td><strong>'+esc(m.cse)+'</strong> <span class="kpi-expand-icon">▾</span></td>';
+    html += '<td class="mono">'+m.total+'</td>';
+    html += '<td class="mono"><span style="color:var(--s-active);font-weight:600">'+m.active+'</span></td>';
+    html += '<td class="mono"><span style="color:var(--s-completed)">'+m.completed+'</span></td>';
+    html += '<td class="mono"><span style="color:var(--s-failed)">'+m.failed+'</span></td>';
+    html += '<td><span style="color:'+srColor+';font-weight:600;font-family:var(--font-mono)">'+sr+'</span></td>';
+    html += '<td class="mono">'+gl+'</td>';
+    html += '<td class="mono"><span style="color:'+atRiskColor+';font-weight:600">'+m.atRisk+'</span></td>';
+    html += '<td><span style="color:var(--t-mega);font-family:var(--font-mono)">'+m.mega+'</span></td>';
+    html += '<td><span style="color:var(--t-smb);font-family:var(--font-mono)">'+m.smb+'</span></td>';
+    html += '<td><span style="color:var(--t-micro);font-family:var(--font-mono)">'+m.micro+'</span></td>';
+    html += '</tr>';
+    // detail row
+    html += '<tr class="kpi-detail"><td colspan="11"><div class="kpi-detail-inner" id="kpi-detail-'+idx+'"></div></td></tr>';
+  });
+  body.innerHTML = html;
+
+  // store data for expand
+  body._kpiData = data;
+
+  // attach sort to headers
+  document.querySelectorAll(".kpi-table thead th").forEach(function(th){
+    // store original label
+    if(!th.getAttribute("data-kpi-label")) th.setAttribute("data-kpi-label", th.textContent.replace(" ▲","").replace(" ▼",""));
+    th.addEventListener("click", function(){
+      var k = th.getAttribute("data-kpi");
+      if(kpiSort.key===k) kpiSort.dir = kpiSort.dir==="asc"?"desc":"asc";
+      else{kpiSort.key=k; kpiSort.dir="desc";}
+      renderCseKpi();
+    });
+  });
+
+  // attach expand/collapse
+  document.querySelectorAll(".kpi-row").forEach(function(row){
+    row.addEventListener("click", function(){
+      var idx = row.getAttribute("data-idx");
+      var detailDiv = document.getElementById("kpi-detail-"+idx);
+      var isOpen = detailDiv.classList.contains("open");
+      // close all
+      document.querySelectorAll(".kpi-detail-inner").forEach(function(d){d.classList.remove("open");d.innerHTML="";});
+      document.querySelectorAll(".kpi-row").forEach(function(r){r.classList.remove("expanded");});
+      if(!isOpen){
+        row.classList.add("expanded");
+        buildDetailPanel(detailDiv, body._kpiData[idx]);
+        detailDiv.classList.add("open");
+      }
+    });
+  });
+}
+
+function buildDetailPanel(div, m){
+  // Tier donut
+  var tierTotal = m.micro+m.smb+m.mega||1;
+  var tierStops="",tierAcc=0,tierLeg="";
+  [["Mega",m.mega,"var(--t-mega)"],["SMB",m.smb,"var(--t-smb)"],["Micro",m.micro,"var(--t-micro)"]].forEach(function(t){
+    if(!t[1])return;
+    var p=(t[1]/tierTotal)*100;
+    tierStops+=t[2]+" "+tierAcc+"% "+(tierAcc+p)+"%, ";tierAcc+=p;
+    tierLeg+='<div class="kpi-legend-row"><span class="kpi-legend-dot" style="background:'+t[2]+'"></span>'+t[0]+' <span style="font-family:var(--font-mono);color:var(--text-dim);margin-left:auto">'+t[1]+'</span></div>';
+  });
+  if(!tierStops) tierStops="var(--border) 0% 100%";
+
+  // Success rate bar
+  var closed=m.completed+m.failed;
+  var srBar="";
+  if(closed>0){
+    var compPct=Math.round(m.completed/closed*100);
+    var failPct=100-compPct;
+    srBar='<div class="rate-bar-wrap">'+
+      '<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim);margin-bottom:4px">'+
+        '<span style="color:var(--s-completed)">✓ '+m.completed+' completed</span>'+
+        '<span style="color:var(--s-failed)">✗ '+m.failed+' failed</span>'+
+      '</div>'+
+      '<div class="rate-bar">'+
+        '<div class="rate-fill" style="width:'+compPct+'%"></div>'+
+        '<div class="rate-fail-fill" style="width:'+failPct+'%"></div>'+
+      '</div>'+
+      '<div style="text-align:center;font-size:12px;margin-top:6px;font-weight:600;color:'+(compPct>=80?"var(--s-completed)":compPct>=50?"var(--s-seonhold)":"var(--s-failed)")+'">'+compPct+'% success rate</div>'+
+    '</div>';
+  }else{
+    srBar='<div style="color:var(--text-faint);font-size:12px">No closed accounts yet</div>';
+  }
+
+  var avgGoLive = m.avgGoLive!==null ? '<div style="font-family:var(--font-mono);font-size:24px;font-weight:700;color:var(--accent)">'+m.avgGoLive+'<span style="font-size:13px;color:var(--text-dim)"> days</span></div><div style="font-size:11px;color:var(--text-faint);margin-top:2px">avg. time to go-live ('+m.goLiveDays.length+' accounts)</div>' : '<div style="color:var(--text-faint);font-size:12px">No go-live data yet</div>';
+
+  // Active accounts list
+  var activeAccounts = m.accounts.filter(function(r){return IN_FLIGHT.indexOf(r.status)!==-1;}).sort(function(a,b){return(b.age||0)-(a.age||0);});
+  var accList = activeAccounts.length ? activeAccounts.map(function(r){
+    var meta=STATUS_META[r.status]||{color:"var(--text-dim)"};
+    return '<div class="kpi-acc-row"><span class="kpi-acc-dot" style="background:'+meta.color+'"></span><span class="kpi-acc-name" title="'+esc(r.name)+'">'+esc(r.name)+'</span><span class="badge" style="background:'+meta.color+'22;color:'+meta.color+';font-size:10px;padding:2px 7px">'+r.status+'</span><span class="kpi-acc-age">'+(r.age!==null?r.age+"d":"—")+'</span></div>';
+  }).join("") : '<div style="color:var(--text-faint);font-size:12px">No active accounts</div>';
+
+  div.innerHTML =
+    // Col 1: tier mix
+    '<div class="kpi-detail-col">'+
+      '<h4>Tier Mix</h4>'+
+      '<div class="kpi-donut-wrap">'+
+        '<div class="kpi-mini-donut" style="background:conic-gradient('+tierStops.slice(0,-2)+')">'+
+          '<div class="kpi-mini-center"><div class="n">'+m.total+'</div><div class="l">total</div></div>'+
+        '</div>'+
+        '<div class="kpi-legend">'+tierLeg+'</div>'+
+      '</div>'+
+    '</div>'+
+    // Col 2: success + avg go-live
+    '<div class="kpi-detail-col">'+
+      '<h4>Success Rate</h4>'+srBar+
+      '<div style="margin-top:16px"><h4>Avg. Days to Go-Live</h4>'+avgGoLive+'</div>'+
+    '</div>'+
+    // Col 3: active accounts
+    '<div class="kpi-detail-col">'+
+      '<h4>Active Accounts ('+activeAccounts.length+')</h4>'+
+      '<div class="kpi-accounts-list">'+accList+'</div>'+
+    '</div>';
+}
 /* ─── Wire events ─── */
 document.getElementById("connectBtn").addEventListener("click",function(){
   var raw=document.getElementById("sheetUrlInput").value.trim();
