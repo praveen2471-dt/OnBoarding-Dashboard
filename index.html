@@ -149,6 +149,17 @@ tbody tr.failed-row{box-shadow:inset 3px 0 0 var(--s-failed);}
 .refresh-ring{display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--accent);border-top-color:transparent;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 /* ── CSE KPI ── */
 .kpi-section{margin-bottom:28px;}
+.kpi-quarter-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+.kpi-quarter-bar .bar-label{font-size:11.5px;color:var(--text-faint);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;margin-right:4px;}
+.q-chip{font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--text-dim);border-radius:999px;padding:5px 14px;transition:all .12s;cursor:pointer;}
+.q-chip:hover{border-color:var(--accent);color:var(--accent);}
+.q-chip.active{background:var(--accent);color:#06231F;border-color:var(--accent);}
+.kpi-mode-toggle{display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;margin-left:auto;}
+.mode-btn{font-size:12px;font-weight:600;border:none;background:transparent;color:var(--text-dim);padding:6px 16px;cursor:pointer;transition:all .12s;}
+.mode-btn.active{background:var(--accent);color:#06231F;}
+.q-context{font-size:12px;color:var(--text-dim);background:var(--bg-elev-2);border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:8px 14px;margin-bottom:14px;line-height:1.6;display:none;}
+.q-context.visible{display:block;}
+
 .kpi-sort-row{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
 .kpi-sort-row label{font-size:12px;color:var(--text-faint);}
 .kpi-sort-btn{font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--text-dim);border-radius:999px;padding:5px 13px;transition:all .12s;}
@@ -275,6 +286,15 @@ footer{margin-top:36px;color:var(--text-faint);font-size:12px;line-height:1.6;bo
         <p class="section-title">CSE Performance KPIs</p>
         <p class="section-note">click any row to expand · sort by column header</p>
       </div>
+      <div class="kpi-quarter-bar">
+        <span class="bar-label">Quarter</span>
+        <div id="qChips"></div>
+        <div class="kpi-mode-toggle">
+          <button class="mode-btn active" id="modeReceived" title="Count accounts whose Date Received falls in this quarter">By Date Received</button>
+          <button class="mode-btn" id="modeActivity" title="Count accounts that were actively being worked on during this quarter">By Activity</button>
+        </div>
+      </div>
+      <div class="q-context" id="qContext"></div>
       <div style="overflow-x:auto;">
         <table class="kpi-table" id="kpiTable">
           <thead><tr>
@@ -649,6 +669,8 @@ function renderTable(){
 function renderAll(){
   document.getElementById("dashboard").style.display="block";
   document.getElementById("lastUpdated").textContent="Updated "+new Date().toLocaleTimeString();
+  // default to current quarter on first load
+  if(kpiFilter.quarter==="current") kpiFilter.quarter=currentQuarterKey();
   renderPipeline();renderStats();
   makeDonut("typeDonutWrap","type",TYPE_COLOR);
   makeDonut("projDonutWrap","project",PROJ_COLOR);
@@ -665,19 +687,109 @@ function renderAll(){
 
 
 /* ─── CSE KPI ─── */
-var kpiSort = {key:"active", dir:"desc"};
+var kpiSort   = {key:"active", dir:"desc"};
+var kpiFilter = {quarter:"current", mode:"received"};
+// mode: "received" = Date Received in quarter | "activity" = account active during quarter
+
+/* Calendar quarter helpers */
+function getQuarterNum(d){ return Math.floor(d.getMonth()/3)+1; }
+function getQuarterYear(d){ return d.getFullYear(); }
+function quarterKey(d){ return "Q"+getQuarterNum(d)+"-"+getQuarterYear(d); }
+function quarterLabel(key){ var p=key.split("-"); return p[0]+" "+p[1]; }
+function quarterBounds(key){
+  var p=key.split("-"), q=+p[0].slice(1)-1, y=+p[1];
+  var start=new Date(y, q*3, 1);
+  var end=new Date(y, q*3+3, 0, 23, 59, 59);
+  return{start:start, end:end};
+}
+function currentQuarterKey(){ var n=new Date(); return quarterKey(n); }
+
+/* Build sorted list of all quarters present in data */
+function allQuarterKeys(){
+  var seen={};
+  state.records.forEach(function(r){
+    if(r.dateReceived) seen[quarterKey(r.dateReceived)]=true;
+    if(r.goLiveDate)   seen[quarterKey(r.goLiveDate)]=true;
+  });
+  return Object.keys(seen).sort(function(a,b){
+    var pa=a.split("-"),pb=b.split("-");
+    return (+pa[1]*10 + +pa[0].slice(1)) - (+pb[1]*10 + +pb[0].slice(1));
+  });
+}
+
+/* Filter records for the selected quarter + mode */
+function recordsForKpi(){
+  if(kpiFilter.quarter==="all") return state.records;
+  var bounds=quarterBounds(kpiFilter.quarter);
+  var qs=bounds.start, qe=bounds.end;
+  return state.records.filter(function(r){
+    if(kpiFilter.mode==="received"){
+      // Account was received during this quarter
+      return r.dateReceived && r.dateReceived>=qs && r.dateReceived<=qe;
+    } else {
+      // Activity mode: account was being worked on AT ANY POINT during this quarter
+      // = received before quarter ends AND (no go-live yet OR went live after quarter starts)
+      var receivedBeforeEnd = r.dateReceived && r.dateReceived<=qe;
+      var notFinishedBeforeStart = !r.goLiveDate || r.goLiveDate>=qs;
+      return receivedBeforeEnd && notFinishedBeforeStart;
+    }
+  });
+}
+
+/* Render the quarter chip bar */
+function renderQuarterChips(){
+  var keys=allQuarterKeys();
+  var cur=currentQuarterKey();
+  var html="";
+  // "All time" chip
+  html+='<button class="q-chip'+(kpiFilter.quarter==="all"?" active":"")+ '" data-q="all">All time</button>';
+  keys.forEach(function(k){
+    var isCur=(k===cur);
+    html+='<button class="q-chip'+(kpiFilter.quarter===k?" active":"")+ '" data-q="'+k+'">'+quarterLabel(k)+(isCur?" ●":"")+'</button>';
+  });
+  var wrap=document.getElementById("qChips");
+  if(wrap) wrap.innerHTML=html;
+
+  document.querySelectorAll(".q-chip").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      kpiFilter.quarter=btn.getAttribute("data-q");
+      renderQuarterChips();
+      renderQContext();
+      renderCseKpi();
+    });
+  });
+}
+
+/* Context banner explaining what the current filter means */
+function renderQContext(){
+  var el=document.getElementById("qContext");
+  if(!el) return;
+  if(kpiFilter.quarter==="all"){el.classList.remove("visible");return;}
+  var bounds=quarterBounds(kpiFilter.quarter);
+  var qs=bounds.start.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+  var qe=bounds.end.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+  var modeText = kpiFilter.mode==="received"
+    ? "<strong>By Date Received:</strong> only accounts whose Date Received falls between <strong>"+qs+"</strong> and <strong>"+qe+"</strong>. An account received in late Q3 and completed in Q4 counts only in Q3."
+    : "<strong>By Activity:</strong> all accounts that were actively being worked on at any point between <strong>"+qs+"</strong> and <strong>"+qe+"</strong>. An account received in late Q3 and completed in Q4 counts in <em>both</em> quarters — this is the fairer CSE performance view.";
+  el.innerHTML=modeText;
+  el.classList.add("visible");
+}
+
 
 function computeCseKpis(){
+  var recs = recordsForKpi();
   var map = {};
-  state.records.forEach(function(r){
+  recs.forEach(function(r){
     var c = r.cse;
-    if(!map[c]) map[c]={cse:c,total:0,active:0,completed:0,failed:0,onHold:0,goLiveDays:[],atRisk:0,micro:0,smb:0,mega:0,accounts:[]};
+    if(!map[c]) map[c]={cse:c,total:0,active:0,completed:0,failed:0,monitoring:0,activeOnboarding:0,onHold:0,goLiveDays:[],atRisk:0,micro:0,smb:0,mega:0,accounts:[]};
     var m=map[c];
     m.total++;
     m.accounts.push(r);
     if(IN_FLIGHT.indexOf(r.status)!==-1) m.active++;
     if(r.status==="Successfully Completed") m.completed++;
     if(r.status==="Failed to Launch") m.failed++;
+    if(r.status==="Monitoring") m.monitoring++;
+    if(r.status==="Active OnBoarding") m.activeOnboarding++;
     if(r.status==="SE OnHold"||r.status==="Sales OnHold") m.onHold++;
     if(r.daysToGoLive!==null) m.goLiveDays.push(r.daysToGoLive);
     if(IN_FLIGHT.indexOf(r.status)!==-1 && r.age!==null && r.age>=state.riskThreshold) m.atRisk++;
@@ -687,14 +799,25 @@ function computeCseKpis(){
     else if(t==="mega") m.mega++;
   });
   return Object.values(map).map(function(m){
-    var closed = m.completed + m.failed;
-    m.successRate = closed ? Math.round(m.completed/closed*100) : null;
+    var srDenom = m.activeOnboarding + m.monitoring + m.completed;
+    m.successRate = srDenom ? Math.round((m.monitoring + m.completed) / srDenom * 100) : null;
     m.avgGoLive = m.goLiveDays.length ? Math.round(m.goLiveDays.reduce(function(a,b){return a+b;},0)/m.goLiveDays.length) : null;
     return m;
   });
 }
 
 function renderCseKpi(){
+  renderQuarterChips();
+  renderQContext();
+  // wire mode toggle buttons
+  var mR=document.getElementById("modeReceived");
+  var mA=document.getElementById("modeActivity");
+  if(mR&&mA){
+    mR.classList.toggle("active", kpiFilter.mode==="received");
+    mA.classList.toggle("active", kpiFilter.mode==="activity");
+    mR.onclick=function(){kpiFilter.mode="received";renderCseKpi();};
+    mA.onclick=function(){kpiFilter.mode="activity";renderCseKpi();};
+  }
   var data = computeCseKpis();
   var key=kpiSort.key, dir=kpiSort.dir;
   data.sort(function(a,b){
@@ -783,24 +906,27 @@ function buildDetailPanel(div, m){
   if(!tierStops) tierStops="var(--border) 0% 100%";
 
   // Success rate bar
-  var closed=m.completed+m.failed;
+  var srDenom2 = m.activeOnboarding + m.monitoring + m.completed;
   var srBar="";
-  if(closed>0){
-    var compPct=Math.round(m.completed/closed*100);
-    var failPct=100-compPct;
+  if(srDenom2>0){
+    var goodPct=Math.round((m.monitoring+m.completed)/srDenom2*100);
+    var activePct=Math.round(m.activeOnboarding/srDenom2*100);
+    var srColor2=goodPct>=80?"var(--s-completed)":goodPct>=50?"var(--s-seonhold)":"var(--s-failed)";
     srBar='<div class="rate-bar-wrap">'+
       '<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim);margin-bottom:4px">'+
         '<span style="color:var(--s-completed)">✓ '+m.completed+' completed</span>'+
-        '<span style="color:var(--s-failed)">✗ '+m.failed+' failed</span>'+
+        '<span style="color:var(--s-monitoring)">◎ '+m.monitoring+' monitoring</span>'+
+        '<span style="color:var(--s-active)">↻ '+m.activeOnboarding+' active</span>'+
       '</div>'+
       '<div class="rate-bar">'+
-        '<div class="rate-fill" style="width:'+compPct+'%"></div>'+
-        '<div class="rate-fail-fill" style="width:'+failPct+'%"></div>'+
+        '<div class="rate-fill" style="width:'+goodPct+'%"></div>'+
+        '<div class="rate-fail-fill" style="width:'+activePct+'%;background:var(--s-active)"></div>'+
       '</div>'+
-      '<div style="text-align:center;font-size:12px;margin-top:6px;font-weight:600;color:'+(compPct>=80?"var(--s-completed)":compPct>=50?"var(--s-seonhold)":"var(--s-failed)")+'">'+compPct+'% success rate</div>'+
+      '<div style="text-align:center;font-size:12px;margin-top:6px;font-weight:600;color:'+srColor2+'">'+goodPct+'% success rate</div>'+
+      '<div style="text-align:center;font-size:10.5px;color:var(--text-faint);margin-top:2px">(Monitoring + Completed) ÷ (Active + Monitoring + Completed)</div>'+
     '</div>';
   }else{
-    srBar='<div style="color:var(--text-faint);font-size:12px">No closed accounts yet</div>';
+    srBar='<div style="color:var(--text-faint);font-size:12px">No accounts in active/monitoring/completed yet</div>';
   }
 
   var avgGoLive = m.avgGoLive!==null ? '<div style="font-family:var(--font-mono);font-size:24px;font-weight:700;color:var(--accent)">'+m.avgGoLive+'<span style="font-size:13px;color:var(--text-dim)"> days</span></div><div style="font-size:11px;color:var(--text-faint);margin-top:2px">avg. time to go-live ('+m.goLiveDays.length+' accounts)</div>' : '<div style="color:var(--text-faint);font-size:12px">No go-live data yet</div>';
